@@ -132,10 +132,8 @@ class UserController extends Controller
         }
 
         if($action == 'index'){
-            // dd ($action);
             $data['page_title'] = 'User';
             $data['page_description'] = 'User';
-            // dd ($data);
             $data['breadcrumbs'] = [
                [
                 'title' => 'User',
@@ -146,7 +144,6 @@ class UserController extends Controller
                 'url' => url('users')
                ]
             ];
-            // dd ($data);
             if(isset($dataArray['title']) && !empty($dataArray['title'])){
 
                 $data['breadcrumbs'][] = [
