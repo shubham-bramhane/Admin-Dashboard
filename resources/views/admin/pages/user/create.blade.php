@@ -2,19 +2,40 @@
 
 
 @section('content')
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
 
-<section class="section">
-    <div class="row">
-      <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Create User</h5>
 
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Example Card</h5>
-            <p>This is an examle page with no contrnt. You can use it as a starter for your custom pages.</p>
-          </div>
+                        <!-- Floating Labels Form -->
+                        <form class="row g-3" action="{{route('users.store')}}" method="POST">
+                            @csrf
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="floatingName" name='name'  placeholder="Your Name">
+                                    <label for="floatingName">Your Name</label>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    <input type="email" class="form-control" id="floatingEmail" name='email' placeholder="Your Email">
+                                    <label for="floatingEmail">Your Email</label>
+                                </div>
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="reset" class="btn btn-secondary">Reset</button>
+                            </div>
+                        </form><!-- End floating Labels Form -->
+
+                    </div>
+                </div>
+
+            </div>
         </div>
-
-      </div>
-    </div>
-  </section>
+    </section>
 @endsection

@@ -9,7 +9,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">User List</h5>
-                        
+
                         <!-- Table with stripped rows -->
                         <table class="table datatable">
                             <thead>
@@ -19,6 +19,7 @@
                                     <th scope="col">Position</th>
                                     <th scope="col">Age</th>
                                     <th scope="col">Start Date</th>
+                                    <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -29,6 +30,17 @@
                                         <td>{{ $user->position }}</td>
                                         <td>{{ $user->age }}</td>
                                         <td>{{ $user->created_at->format('d-m-Y') }}</td>
+                                        <td>
+                                            <a href="{{ route('users.edit', $user->id) }}"
+                                                class="btn btn-primary btn-sm">Edit</a>
+                                            <form action="{{ route('users.destroy', $user->id) }}" method="POST"
+                                                class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm"
+                                                    onclick="return confirm('Are you sure?')">Delete</button>
+                                            </form>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

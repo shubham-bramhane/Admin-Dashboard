@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\User;
 
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -45,7 +47,44 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            if ($request->isMethod('post')) {
+                $validator = Validator::make($request->all(), [
+                    'name' => 'required',
+                    'email' => 'required|unique:users,email',
+                ]);
+
+                if ($validator->fails()) {
+                    return redirect()->back()->withErrors($validator)->withInput();
+                }
+
+                DB::beginTransaction();
+
+                $array = [
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'password' => Hash::make($request->password),
+                    'age' => "21",
+                    'position' => "Developer",
+                ];
+
+                $UserEmail = User::where('email', $array['email'])->exists();
+                if ($UserEmail) {
+                    return redirect()->back()->withErrors(['User Email already exist.'])->withInput($request->all());
+                }
+
+                // dd(  $array );
+                $response = User::UpdateOrCreate(['id' => null], $array);
+                DB::commit();
+                return redirect()->route('users.index')->with('success', 'User created successfully.');
+
+            }
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->back()->with('error', $th->getMessage());
+        }
+
+
     }
 
     /**
@@ -61,7 +100,18 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        try {
+            $data = $this->pageSetting('edit', ['id' => $id]);
+            $user = User::find($id);
+            if ($user) {
+                return view('admin.pages.user.edit', compact('data', 'user'));
+            } else {
+                return redirect()->route('users.index')->with('error', 'User not found.');
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+            return redirect()->back()->with('error', $th->getMessage());
+        }
     }
 
     /**
@@ -69,7 +119,41 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try {
+            if ($request->isMethod('put')) {
+                $validator = Validator::make($request->all(), [
+                    'name' => 'required',
+                    'email' => 'required|unique:users,email,' . $id,
+                ]);
+
+                if ($validator->fails()) {
+                    return redirect()->back()->withErrors($validator)->withInput();
+                }
+
+                DB::beginTransaction();
+
+                $array = [
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'age' => "21",
+                    'position' => "Developer",
+                ];
+
+                $UserEmail = User::where('email', $array['email'])->where('id', '!=', $id)->exists();
+                if ($UserEmail) {
+                    return redirect()->back()->withErrors(['User Email already exist.'])->withInput($request->all());
+                }
+
+                // dd(  $array );
+                $response = User::UpdateOrCreate(['id' => $id], $array);
+                DB::commit();
+                return redirect()->route('users.index')->with('success', 'User updated successfully.');
+
+            }
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->back()->with('error', $th->getMessage());
+        }
     }
 
     /**
@@ -77,7 +161,25 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            if ($id) {
+                DB::beginTransaction();
+                $user = User::find($id);
+                if ($user) {
+                    $user->delete();
+                    DB::commit();
+                    return redirect()->route('users.index')->with('success', 'User deleted successfully.');
+                } else {
+                    return redirect()->route('users.index')->with('error', 'User not found.');
+                }
+
+            } else {
+                return redirect()->route('users.index')->with('error', 'User not found.');
+            }
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->back()->with('error', $th->getMessage());
+        }
     }
 
 
@@ -86,14 +188,15 @@ class UserController extends Controller
         if($action == 'edit'){
             $data['page_title'] = 'Edit User';
             $data['page_description'] = 'Edit User';
+            // dd($dataArray);
             $data['breadcrumbs'] = [
                [
                 'title' => 'User',
-                'url' => route('admin.dashboard')
+                'url' => url('users')
                ],
                 [
                  'title' => 'Edit User',
-                 'url' => route('admin.users.edit', $dataArray['id'])
+                 'url' => url('users/'.$dataArray['id'].'/edit')
                 ]
             ];
             if(isset($dataArray['title']) && !empty($dataArray['title'])){
