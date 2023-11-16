@@ -125,12 +125,12 @@ class DashboardController extends Controller
             $data['breadcrumbs'] = [
                [
                 'title' => 'Dashboard',
-                'url' => url('Dashboard')
+                'url' => url('admin/dashboard')
                ],
-               [
-                'title' => 'Dashboard List',
-                'url' => url('Dashboard')
-               ]
+            //    [
+            //     'title' => 'Dashboard List',
+            //     'url' => url('admin/dashboard')
+            //    ]
             ];
             if(isset($dataArray['title']) && !empty($dataArray['title'])){
 
