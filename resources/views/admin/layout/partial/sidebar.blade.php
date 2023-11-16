@@ -56,13 +56,23 @@
       <li class="nav-heading">Pages</li>
 
 
-      <li class="nav-item">
+      {{-- <li class="nav-item">
         <a class="nav-link collapsed" href="pages-login.html">
           <i class="bi bi-box-arrow-in-right"></i>
           <span>Login</span>
         </a>
-      </li><!-- End Login Page Nav -->
+      </li><!-- End Login Page Nav --> --}}
 
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{route('logout')}}"onclick="event.preventDefault();
+        document.getElementById('logout-form').submit();" >
+          <i class="bi bi-box-arrow-in-right"></i>
+          <span>Logout</span>
+        </a>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+            @csrf
+        </form>
+      </li><!-- End Login Page Nav -->
 
     </ul>
 
