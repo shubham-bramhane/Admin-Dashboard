@@ -11,6 +11,8 @@
         </a>
       </li><!-- End Dashboard Nav -->
 
+      @can('users-list')
+
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#user-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-menu-button-wide"></i><span>User</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -28,6 +30,8 @@
           </li>
         </ul>
       </li><!-- End User Nav -->
+
+      @endcan
 
       {{-- Customer --}}
 
