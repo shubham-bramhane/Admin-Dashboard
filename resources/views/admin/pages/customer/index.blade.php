@@ -33,11 +33,11 @@
                                         <td>{{ $customer->created_at->format('d-m-Y') }}</td>
                                         <td>
                                             @if ($customer->status == 1)
-                                            <a href="{{ route('customers.status', $customer->id) }}"
+                                            <a href="{{ route('admin.customers.status', $customer->id) }}"
                                                 class="btn btn-success btn-sm">Active</a>
 
                                             @else
-                                            <a href="{{ route('customers.status', $customer->id) }}"
+                                            <a href="{{ route('admin.customers.status', $customer->id) }}"
                                                 class="btn btn-danger btn-sm">Inactive</a>
 
                                             @endif
@@ -45,9 +45,9 @@
                                         </td>
 
                                         <td>
-                                            <a href="{{ route('customers.edit', $customer->id) }}"
+                                            <a href="{{ route('admin.customers.edit', $customer->id) }}"
                                                 class="btn btn-primary btn-sm">Edit</a>
-                                            <form action="{{ route('customers.destroy', $customer->id) }}" method="POST"
+                                            <form action="{{ route('admin.customers.destroy', $customer->id) }}" method="POST"
                                                 class="d-inline">
                                                 @csrf
                                                 @method('DELETE')

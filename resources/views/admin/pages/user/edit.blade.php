@@ -11,7 +11,7 @@
                         <h5 class="card-title">Edit User</h5>
 
                         <!-- Floating Labels Form -->
-                        <form class="row g-3" action="{{route('users.update', $user->id)}}" method="post">
+                        <form class="row g-3" action="{{route('admin.users.update', $user->id)}}" method="post">
                             @csrf
                             @method('PUT')
                             <div class="col-md-12">

@@ -5,7 +5,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link " href="{{route('dashboard.index')}}">
+        <a class="nav-link " href="{{route('admin.dashboard.index')}}">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
@@ -17,12 +17,12 @@
         </a>
         <ul id="user-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="{{route('users.create')}}">
+            <a href="{{route('admin.users.create')}}">
               <i class="bi bi-circle"></i><span>Create User</span>
             </a>
           </li>
           <li>
-            <a href="{{route('users.index')}}">
+            <a href="{{route('admin.users.index')}}">
               <i class="bi bi-circle"></i><span>User List</span>
             </a>
           </li>
@@ -37,12 +37,12 @@
         </a>
         <ul id="customer-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="{{route('customers.create')}}">
+            <a href="{{route('admin.customers.create')}}">
               <i class="bi bi-circle"></i><span>Create Customer</span>
             </a>
           </li>
           <li>
-            <a href="{{route('customers.index')}}">
+            <a href="{{route('admin.customers.index')}}">
               <i class="bi bi-circle"></i><span>Customer List</span>
             </a>
           </li>

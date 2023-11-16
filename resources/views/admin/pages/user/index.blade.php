@@ -18,7 +18,8 @@
                                     <th scope="col">Name</th>
                                     <th scope="col">Position</th>
                                     <th scope="col">Age</th>
-                                    <th scope="col">Start Date</th>
+                                    <th scope="col">Created at</th>
+                                    <th scope="col">Status</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -31,9 +32,20 @@
                                         <td>{{ $user->age }}</td>
                                         <td>{{ $user->created_at->format('d-m-Y') }}</td>
                                         <td>
-                                            <a href="{{ route('users.edit', $user->id) }}"
+                                            @if ($user->status == 1)
+                                                <a href="{{ route('admin.users.status', $user->id) }}"
+                                                    class="btn btn-success btn-sm">Active</a>
+
+                                            @else
+                                                <a href="{{ route('admin.users.status', $user->id) }}"
+                                                    class="btn btn-danger btn-sm">Inactive</a>
+
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('admin.users.edit', $user->id) }}"
                                                 class="btn btn-primary btn-sm">Edit</a>
-                                            <form action="{{ route('users.destroy', $user->id) }}" method="POST"
+                                            <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST"
                                                 class="d-inline">
                                                 @csrf
                                                 @method('DELETE')

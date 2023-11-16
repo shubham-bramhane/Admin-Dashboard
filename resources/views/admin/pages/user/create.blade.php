@@ -11,7 +11,7 @@
                         <h5 class="card-title">Create User</h5>
 
                         <!-- Floating Labels Form -->
-                        <form class="row g-3" action="{{route('users.store')}}" method="POST">
+                        <form class="row g-3" action="{{route('admin.users.store')}}" method="POST">
                             @csrf
                             <div class="col-md-12">
                                 <div class="form-floating">

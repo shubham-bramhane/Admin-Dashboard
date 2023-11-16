@@ -94,7 +94,7 @@ class CustomerController extends Controller
 
                 $response = Customer::UpdateOrCreate(['id' => null], $array);
                 DB::commit();
-                return redirect()->route('customers.index')->with('success', 'Customer created successfully.');
+                return redirect()->route('admin.customers.index')->with('success', 'Customer created successfully.');
             }
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -163,7 +163,7 @@ class CustomerController extends Controller
                 $response = Customer::UpdateOrCreate(['id' => $id], $array);
 
                 DB::commit();
-                return redirect()->route('customers.index')->with('success', 'Customer updated successfully.');
+                return redirect()->route('admin.customers.index')->with('success', 'Customer updated successfully.');
             }
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -198,11 +198,11 @@ class CustomerController extends Controller
             $data['breadcrumbs'] = [
                [
                 'title' => 'Customer',
-                'url' => url('Customers')
+                'url' => url('admin/customers')
                ],
                 [
                  'title' => 'Edit Customer',
-                 'url' => url('Customers/'.$dataArray['id'].'/edit')
+                 'url' => url('admin/customers/'.$dataArray['id'].'/edit')
                 ]
             ];
             if(isset($dataArray['title']) && !empty($dataArray['title'])){
@@ -222,11 +222,11 @@ class CustomerController extends Controller
             $data['breadcrumbs'] = [
                [
                 'title' => 'Customer',
-                'url' => url('Customers')
+                'url' => url('admin/customers')
                ],
                 [
                  'title' => 'Create Customer',
-                 'url' => url('Customers/create')
+                 'url' => url('admin/customers/create')
                 ]
             ];
             if(isset($dataArray['title']) && !empty($dataArray['title'])){
@@ -246,11 +246,11 @@ class CustomerController extends Controller
             $data['breadcrumbs'] = [
                [
                 'title' => 'Customer',
-                'url' => url('Customers')
+                'url' => url('admin/customers')
                ],
                [
                 'title' => 'Customer List',
-                'url' => url('Customers')
+                'url' => url('admin/customers')
                ]
             ];
             if(isset($dataArray['title']) && !empty($dataArray['title'])){

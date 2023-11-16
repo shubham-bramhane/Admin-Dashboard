@@ -76,7 +76,7 @@ class UserController extends Controller
                 // dd(  $array );
                 $response = User::UpdateOrCreate(['id' => null], $array);
                 DB::commit();
-                return redirect()->route('users.index')->with('success', 'User created successfully.');
+                return redirect()->route('admin.users.index')->with('success', 'User created successfully.');
 
             }
         } catch (\Throwable $th) {
@@ -87,6 +87,21 @@ class UserController extends Controller
 
     }
 
+    public function status(string $id)
+    {
+        try {
+            $user = User::find($id);
+            if ($user) {
+                $user->status = !$user->status;
+                $user->save();
+                return redirect()->back()->with('success', 'User status updated successfully.');
+            }
+            return redirect()->back()->with('error', 'User not found.');
+        } catch (\Throwable $th) {
+            //throw $th;
+            return redirect()->back()->with('error', $th->getMessage());
+        }
+    }
     /**
      * Display the specified resource.
      */
@@ -147,7 +162,7 @@ class UserController extends Controller
                 // dd(  $array );
                 $response = User::UpdateOrCreate(['id' => $id], $array);
                 DB::commit();
-                return redirect()->route('users.index')->with('success', 'User updated successfully.');
+                return redirect()->route('admin.users.index')->with('success', 'User updated successfully.');
 
             }
         } catch (\Throwable $th) {
@@ -192,11 +207,11 @@ class UserController extends Controller
             $data['breadcrumbs'] = [
                [
                 'title' => 'User',
-                'url' => url('users')
+                'url' => url('admin/users')
                ],
                 [
                  'title' => 'Edit User',
-                 'url' => url('users/'.$dataArray['id'].'/edit')
+                 'url' => url('admin/users/'.$dataArray['id'].'/edit')
                 ]
             ];
             if(isset($dataArray['title']) && !empty($dataArray['title'])){
@@ -216,11 +231,11 @@ class UserController extends Controller
             $data['breadcrumbs'] = [
                [
                 'title' => 'User',
-                'url' => url('users')
+                'url' => url('admin/users')
                ],
                 [
                  'title' => 'Create User',
-                 'url' => url('users/create')
+                 'url' => url('admin/users/create')
                 ]
             ];
             if(isset($dataArray['title']) && !empty($dataArray['title'])){
@@ -240,11 +255,11 @@ class UserController extends Controller
             $data['breadcrumbs'] = [
                [
                 'title' => 'User',
-                'url' => url('users')
+                'url' => url('admin/users')
                ],
                [
                 'title' => 'User List',
-                'url' => url('users')
+                'url' => url('admin/users')
                ]
             ];
             if(isset($dataArray['title']) && !empty($dataArray['title'])){

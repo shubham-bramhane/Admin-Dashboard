@@ -35,11 +35,13 @@ Route::get('admin/login', function () {
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth'])->prefix('admin')->name('admin.')
+->group(function () {
 
     Route::resource('dashboard', DashboardController::class);
 
     Route::resource('users', UserController::class);
+    Route::get('users/status/{id}', [UserController::class, 'status'])->name('users.status');
 
     Route::resource('customers', CustomerController::class);
     Route::get('customers/status/{id}', [CustomerController::class, 'status'])->name('customers.status');
