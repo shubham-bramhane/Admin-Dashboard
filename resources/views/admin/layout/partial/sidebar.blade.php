@@ -29,6 +29,28 @@
         </ul>
       </li><!-- End User Nav -->
 
+      {{-- Customer --}}
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#customer-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-menu-button-wide"></i><span>Customer</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="customer-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="{{route('customers.create')}}">
+              <i class="bi bi-circle"></i><span>Create Customer</span>
+            </a>
+          </li>
+          <li>
+            <a href="{{route('customers.index')}}">
+              <i class="bi bi-circle"></i><span>Customer List</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End User Nav -->
+
+
+
 
 
       <li class="nav-heading">Pages</li>

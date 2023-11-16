@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\CustomerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,7 +29,14 @@ Route::resource('dashboard', DashboardController::class);
 
 Route::resource('users', UserController::class);
 
+Route::resource('customers', CustomerController::class);
+Route::get('customers/status/{id}', [CustomerController::class, 'status'])->name('customers.status');
+
 
 Route::get('/empty', function () {
     return view('admin.pages.empty');
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
