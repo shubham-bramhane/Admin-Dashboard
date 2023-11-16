@@ -18,7 +18,8 @@ use App\Http\Controllers\Admin\CustomerController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    // return view('welcome');
+    return redirect()->route('admin.login');
 });
 
 
@@ -27,6 +28,9 @@ Route::get('/empty', function () {
 });
 
 Auth::routes();
+Route::get('admin/login', function () {
+    return view('admin.pages.auth.login');
+})->name('admin.login');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
