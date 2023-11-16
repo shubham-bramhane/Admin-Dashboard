@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Admin\UserController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,19 +20,10 @@ Route::get('/', function () {
 });
 
 
-Route::get('/dashboard', function () {
-    return view('admin.pages.dashboard.index');
-});
 
+// user resource
 
-Route::get('/user', function () {
-    return view('admin.pages.user.index');
-});
-
-
-Route::get('/user/create', function () {
-    return view('admin.pages.user.create');
-});
+Route::resource('user', UserController::class);
 
 
 Route::get('/empty', function () {
