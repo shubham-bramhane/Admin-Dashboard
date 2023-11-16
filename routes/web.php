@@ -23,7 +23,7 @@ Route::get('/', function () {
 
 // user resource
 
-Route::resource('user', UserController::class);
+Route::resource('users', UserController::class);
 
 
 Route::get('/empty', function () {
