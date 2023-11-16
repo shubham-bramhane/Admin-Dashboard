@@ -16,3 +16,23 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::get('/dashboard', function () {
+    return view('admin.pages.dashboard.index');
+});
+
+
+Route::get('/user', function () {
+    return view('admin.pages.user.index');
+});
+
+
+Route::get('/user/create', function () {
+    return view('admin.pages.user.create');
+});
+
+
+Route::get('/empty', function () {
+    return view('admin.pages.empty');
+});
