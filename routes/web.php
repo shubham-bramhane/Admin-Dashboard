@@ -35,7 +35,7 @@ Route::get('admin/login', function () {
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
-Route::middleware(['auth'])->prefix('admin')->name('admin.')
+Route::middleware(['auth','checkLogin'])->prefix('admin')->name('admin.')
 ->group(function () {
 
     Route::resource('dashboard', DashboardController::class);
