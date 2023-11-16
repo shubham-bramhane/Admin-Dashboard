@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\User;
+
+use Illuminate\Support\Facades\Route;
+
 
 class UserController extends Controller
 {
@@ -12,7 +16,14 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('admin.pages.user.index');
+        try {
+            $data = $this->pageSetting('index');
+            $users = User::all();
+            return view('admin.pages.user.index', compact('data', 'users'));
+        } catch (\Throwable $th) {
+            //throw $th;
+            return redirect()->back()->with('error', $th->getMessage());
+        }
     }
 
     /**
@@ -20,7 +31,13 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('admin.pages.user.create');
+        try {
+            $data = $this->pageSetting('create');
+            return view('admin.pages.user.create', compact('data'));
+        } catch (\Throwable $th) {
+            //throw $th;
+            return redirect()->back()->with('error', $th->getMessage());
+        }
     }
 
     /**
@@ -61,5 +78,83 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+
+    public function pageSetting($action, $dataArray = []){
+
+        if($action == 'edit'){
+            $data['page_title'] = 'Edit User';
+            $data['page_description'] = 'Edit User';
+            $data['breadcrumbs'] = [
+               [
+                'title' => 'User',
+                'url' => route('admin.dashboard')
+               ],
+                [
+                 'title' => 'Edit User',
+                 'url' => route('admin.users.edit', $dataArray['id'])
+                ]
+            ];
+            if(isset($dataArray['title']) && !empty($dataArray['title'])){
+
+                $data['breadcrumbs'][] = [
+                    'title' => $dataArray['title'],
+                    'url' => ''
+                ];
+            }
+
+            return $data;
+        }
+
+        if($action == 'create'){
+            $data['page_title'] = 'Create User';
+            $data['page_description'] = 'Create User';
+            $data['breadcrumbs'] = [
+               [
+                'title' => 'User',
+                'url' => url('users')
+               ],
+                [
+                 'title' => 'Create User',
+                 'url' => url('users/create')
+                ]
+            ];
+            if(isset($dataArray['title']) && !empty($dataArray['title'])){
+
+                $data['breadcrumbs'][] = [
+                    'title' => $dataArray['title'],
+                    'url' => ''
+                ];
+            }
+
+            return $data;
+        }
+
+        if($action == 'index'){
+            // dd ($action);
+            $data['page_title'] = 'User';
+            $data['page_description'] = 'User';
+            // dd ($data);
+            $data['breadcrumbs'] = [
+               [
+                'title' => 'User',
+                'url' => url('users')
+               ],
+               [
+                'title' => 'User List',
+                'url' => url('users')
+               ]
+            ];
+            // dd ($data);
+            if(isset($dataArray['title']) && !empty($dataArray['title'])){
+
+                $data['breadcrumbs'][] = [
+                    'title' => $dataArray['title'],
+                    'url' => ''
+                ];
+            }
+            return $data;
+        }
     }
 }

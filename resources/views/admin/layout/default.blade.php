@@ -4,8 +4,13 @@
 
 @include('admin.layout.partial.sidebar')
 
-@yield('content')
+<main id="main" class="main">
 
+    @include('admin.layout.partial.breadcrumb')
+
+    @yield('content')
+
+</main><!-- End #main -->
 
 {{-- @include('admin.layout.partial.footer') --}}
 

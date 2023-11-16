@@ -28,4 +28,4 @@ Route::resource('users', UserController::class);
 
 Route::get('/empty', function () {
     return view('admin.pages.empty');
-});
+})->name('dashboard.index');
