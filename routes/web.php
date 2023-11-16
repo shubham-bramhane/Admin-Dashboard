@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,9 +24,11 @@ Route::get('/', function () {
 
 // user resource
 
+Route::resource('dashboard', DashboardController::class);
+
 Route::resource('users', UserController::class);
 
 
 Route::get('/empty', function () {
     return view('admin.pages.empty');
-})->name('dashboard.index');
+});
