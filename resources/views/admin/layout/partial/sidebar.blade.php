@@ -5,7 +5,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link " href="index.html">
+        <a class="nav-link " href="{{route('dashboard.index')}}">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
@@ -17,12 +17,12 @@
         </a>
         <ul id="user-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="user-alerts.html">
+            <a href="{{route('users.create')}}">
               <i class="bi bi-circle"></i><span>Create User</span>
             </a>
           </li>
           <li>
-            <a href="user-alerts.html">
+            <a href="{{route('users.index')}}">
               <i class="bi bi-circle"></i><span>User List</span>
             </a>
           </li>
