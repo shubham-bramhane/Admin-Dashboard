@@ -16,20 +16,11 @@ class RoleSeeder extends Seeder
     {
         Role::create(['name' => 'Super Admin']);
         $admin = Role::create(['name' => 'Admin']);
-        $productManager = Role::create(['name' => 'Product Manager']);
+
 
         $admin->givePermissionTo([
             'users-list',
-            'users-create',
-            'users-edit',
-            'users-delete',
         ]);
 
-        // $productManager->givePermissionTo([
-        //     'users-list',
-        //     'users-create',
-        //     'users-edit',
-        //     'users-delete',
-        // ]);
     }
 }
