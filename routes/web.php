@@ -49,4 +49,7 @@ Route::middleware(['auth','checkLogin'])->prefix('admin')->name('admin.')
 
     Route::resource('roles', RoleController::class);
     Route::get('roles/status/{id}', [RoleController::class, 'status'])->name('roles.status');
+    Route::get('roles/permission/{id}', [RoleController::class, 'permission'])->name('roles.permission');
+    // store permission
+    Route::post('roles/permission/{id}', [RoleController::class, 'permissionStore'])->name('roles.permissionStore');
 });

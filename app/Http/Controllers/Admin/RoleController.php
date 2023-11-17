@@ -4,16 +4,24 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\User;
-
 use Spatie\Permission\Models\Role;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('permission:roles-list|roles-create|roles-edit|roles-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:roles-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:roles-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:roles-delete', ['only' => ['destroy']]);
+    }
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
         try {
@@ -26,6 +34,9 @@ class RoleController extends Controller
         }
     }
 
+    /**
+     * Show the form for creating a new resource.
+     */
     public function create()
     {
         try {
@@ -37,78 +48,113 @@ class RoleController extends Controller
         }
     }
 
-
-
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
         try {
             if ($request->isMethod('post')) {
                 $validator = Validator::make($request->all(), [
-                    'name' => 'required'
-                ]);
+                    'name' => 'required | unique:roles,name',
+                ],[
+                    'name.required' => 'Role Name is required.',
+                    'name.unique' => 'Role Name already exist.',
+                ]
+                );
 
                 if ($validator->fails()) {
                     return redirect()->back()->withErrors($validator)->withInput();
                 }
+
+                DB::beginTransaction();
 
                 $array = [
                     'name' => $request->name,
                     'guard_name' => 'web',
                 ];
 
-                DB::beginTransaction();
-
-                $role = Role::where('name',$array['name'])->exists();
-                if($role){
-                    return redirect()->back()->with('error', 'Role already exists.');
+                $role = Role::where('name', $array['name'])->exists();
+                if ($role) {
+                    return redirect()->back()->withErrors(['Role Name already exist.'])->withInput($request->all());
                 }
-                $role = Role::UpdateOrCreate(['id' => null], $array);
+
+                $response = Role::UpdateOrCreate(['id' => null], $array);
                 DB::commit();
+                return redirect()->route('admin.roles.index')->with('success', 'Role created successfully.');
 
-                $role->syncPermissions($request->permission);
-
-                return redirect()->route('admin.roles.index')->with('success', 'Role created successfully');
             }
         } catch (\Throwable $th) {
-            //throw $th;
+            DB::rollBack();
             return redirect()->back()->with('error', $th->getMessage());
         }
+
     }
 
-    public function edit($id)
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
     {
         try {
-            $data = $this->pageSetting('edit');
+            $data = $this->pageSetting('edit', ['id' => $id]);
             $role = Role::find($id);
-            $permissions = $role->permissions()->pluck('name', 'name')->all();
-            return view('admin.pages.role.edit', compact('data', 'role', 'permissions'));
+            if ($role) {
+                return view('admin.pages.role.edit', compact('data', 'role'));
+            }
+            return redirect()->back()->with('error', 'Role not found.');
         } catch (\Throwable $th) {
             //throw $th;
             return redirect()->back()->with('error', $th->getMessage());
         }
     }
 
-    public function update(Request $request, $id)
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
     {
         try {
             if ($request->isMethod('put')) {
                 $validator = Validator::make($request->all(), [
-                    'name' => 'required|unique:roles,name,' . $id,
-                ]);
+                    'name' => 'required | unique:roles,name,'.$id,
+                ],[
+                    'name.required' => 'Role Name is required.',
+                    'name.unique' => 'Role Name already exist.',
+                ]
+                );
 
                 if ($validator->fails()) {
                     return redirect()->back()->withErrors($validator)->withInput();
                 }
 
-                $role = Role::find($id);
-                $role->name = $request->name;
-                $role->save();
-                $role->syncPermissions($request->permission);
+                DB::beginTransaction();
 
-                return redirect()->route('admin.roles.index')->with('success', 'Role updated successfully');
+                $array = [
+                    'name' => $request->name,
+                    'guard_name' => 'web',
+                ];
+
+                $role = Role::where('name', $array['name'])->where('id', '!=', $id)->exists();
+                if ($role) {
+                    return redirect()->back()->withErrors(['Role Name already exist.'])->withInput($request->all());
+                }
+
+                $response = Role::UpdateOrCreate(['id' => $id], $array);
+                DB::commit();
+                return redirect()->route('admin.roles.index')->with('success', 'Role updated successfully.');
+
             }
         } catch (\Throwable $th) {
-            //throw $th;
+            DB::rollBack();
             return redirect()->back()->with('error', $th->getMessage());
         }
     }
@@ -129,28 +175,46 @@ class RoleController extends Controller
         }
     }
 
-
-
-    public function show(string $id)
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
     {
-        //
+        try {
+            $role = Role::find($id);
+            if ($role) {
+                $role->delete();
+                return redirect()->back()->with('success', 'Role deleted successfully.');
+            }
+            return redirect()->back()->with('error', 'Role not found.');
+        } catch (\Throwable $th) {
+            //throw $th;
+            return redirect()->back()->with('error', $th->getMessage());
+        }
+    }
+
+    public function permission(string $id){
+
+    }
+
+    public function permissionStore(Request $request, string $id){
+       
     }
 
 
-
     public function pageSetting($action, $dataArray = []){
-// dd ($action);
+
         if($action == 'edit'){
-            $data['page_title'] = 'Edit role';
-            $data['page_description'] = 'Edit role';
+            $data['page_title'] = 'Edit Role';
+            $data['page_description'] = 'Edit Role';
             // dd($dataArray);
             $data['breadcrumbs'] = [
                [
-                'title' => 'role',
+                'title' => 'Role',
                 'url' => url('admin/roles')
                ],
                 [
-                 'title' => 'Edit role',
+                 'title' => 'Edit Role',
                  'url' => url('admin/roles/'.$dataArray['id'].'/edit')
                 ]
             ];
@@ -166,15 +230,15 @@ class RoleController extends Controller
         }
 
         if($action == 'create'){
-            $data['page_title'] = 'Create role';
-            $data['page_description'] = 'Create role';
+            $data['page_title'] = 'Create Role';
+            $data['page_description'] = 'Create Role';
             $data['breadcrumbs'] = [
                [
-                'title' => 'role',
+                'title' => 'Role',
                 'url' => url('admin/roles')
                ],
                 [
-                 'title' => 'Create role',
+                 'title' => 'Create Role',
                  'url' => url('admin/roles/create')
                 ]
             ];
@@ -190,15 +254,15 @@ class RoleController extends Controller
         }
 
         if($action == 'index'){
-            $data['page_title'] = 'role';
-            $data['page_description'] = 'role';
+            $data['page_title'] = 'Role';
+            $data['page_description'] = 'Role';
             $data['breadcrumbs'] = [
                [
-                'title' => 'role',
+                'title' => 'Role',
                 'url' => url('admin/roles')
                ],
                [
-                'title' => 'role List',
+                'title' => 'Role List',
                 'url' => url('admin/roles')
                ]
             ];

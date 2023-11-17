@@ -18,6 +18,13 @@ class PermissionSeeder extends Seeder
             'users-create',
             'users-edit',
             'users-delete',
+            'users-status',
+            
+            'roles-list',
+            'roles-create',
+            'roles-edit',
+            'roles-delete',
+            'roles-status',
          ];
 
           // Looping and Inserting Array's Permissions into Permission Table
