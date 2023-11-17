@@ -17,22 +17,10 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(100)->create();
 
         $this->call([
-            PermissionTableSeeder::class,
+            PermissionSeeder::class,
+            RoleSeeder::class,
+            SuperAdminSeeder::class,
         ]);
 
-        $user = \App\Models\User::factory()->create([
-            'name' => 'shubham bramhane',
-            'email' => 'test@example.com',
-            'password' => bcrypt('123456789'),
-            'role_id' => 1,
-        ]);
-
-        $role = Role::create(['name' => 'Admin']);
-
-        $permissions = Permission::pluck('id','id')->all();
-
-        $role->syncPermissions($permissions);
-
-        $user->assignRole([$role->id]);
     }
 }

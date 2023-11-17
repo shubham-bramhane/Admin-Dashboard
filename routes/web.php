@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\RoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,4 +46,7 @@ Route::middleware(['auth','checkLogin'])->prefix('admin')->name('admin.')
 
     Route::resource('customers', CustomerController::class);
     Route::get('customers/status/{id}', [CustomerController::class, 'status'])->name('customers.status');
+
+    Route::resource('roles', RoleController::class);
+    Route::get('roles/status/{id}', [RoleController::class, 'status'])->name('roles.status');
 });
