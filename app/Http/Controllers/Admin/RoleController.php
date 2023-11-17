@@ -212,7 +212,21 @@ class RoleController extends Controller
     }
 
     public function permissionStore(Request $request, string $id){
-
+        try {
+            if ($request->isMethod('post')) {
+                $role = Role::find($id);
+                if ($role) {
+                    $permission= Permission::whereIn('id', $request->permission)->get()->pluck('name')->toArray();
+                    $role->syncPermissions($permission);
+                    return redirect()->route('admin.roles.index')->with('success', 'Role permission updated successfully.');
+                }
+                return redirect()->back()->with('error', 'Role not found.');
+            }
+        }
+        catch (\Throwable $th) {
+            //throw $th;
+            return redirect()->back()->with('error', $th->getMessage());
+        }
     }
 
 

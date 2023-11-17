@@ -29,99 +29,55 @@
                                 @endif
                             </div>
                         </div> --}}
-
-                        <table class="table">
-                            @include('admin.layout.partial.alert')
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Module</th>
-                                    <th scope="col">
-                                        <input type="checkbox" name="select" value="1" id="ckbCheckView"
-                                            className="Checkbox1" class="Checkbox1">
-                                        View
-                                    </th>
-                                    <th scope="col">
-                                        <input type="checkbox" name="select" value="1" id="ckbCheckCreate"
-                                            className="Checkbox1" class="Checkbox1">
-                                        Create
-                                    </th>
-                                    <th scope="col">
-                                        <input type="checkbox" name="select" value="1" id="ckbCheckEdit"
-                                            className="Checkbox1" class="Checkbox1">
-                                        Edit
-                                    </th>
-                                    <th scope="col">
-                                        <input type="checkbox" name="select" value="1" id="ckbCheckStatus"
-                                            className="Checkbox1" class="Checkbox1">
-                                        Status
-                                    </th>
-                                    <th scope="col">
-                                        <input type="checkbox" name="select" value="1" id="ckbCheckDelete"
-                                            className="Checkbox1" class="Checkbox1">
-                                        Delete
-                                    </th>
-                                    <th scope="col">
-                                        <input type="checkbox" name="select" value="1" id="ckbCheckAll"
-                                            className="Checkbox1" class="Checkbox1">
-                                        All
-                                    </th>
-                                </tr>
-                            </thead>
-
-
-                            <tbody>
-                                @php
-                                    $modules = modulesList();
-                                    $permissions = $permissions->pluck('name', 'id')->toArray();
-                                @endphp
-
-                                @foreach ($modules as $key => $module)
+                        <form method="POST" class="w-100" action="{{route('admin.roles.permissionStore', $role->id)}}">
+                            @csrf
+                            <table class="table">
+                                <thead>
                                     <tr>
-                                        <th scope="row">{{ $loop->iteration }}</th>
-                                        <td>
-                                            {{ $module['slug'] }}
-                                            <input type="hidden" value="{{ $module['slug'] }}"
-                                                name="module_slug[{{ $module['id'] }}]">
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" name="permissions[{{ $module['id'] }}][view]"
-                                                value="1" id="ckbCheckView" class="checkBoxView individual_checkbox"
-                                                {{ isset($permissions[$module['id']]['view']) ? 'checked' : '' }}>
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" name="permissions[{{ $module['id'] }}][create]"
-                                                value="1" id="ckbCheckCreate" class="checkBoxCreate individual_checkbox"
-                                                {{ isset($permissions[$module['id']]['create']) ? 'checked' : '' }}>
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" name="permissions[{{ $module['id'] }}][edit]"
-                                                value="1" id="ckbCheckEdit" class="checkBoxEdit individual_checkbox"
-                                                {{ isset($permissions[$module['id']]['edit']) ? 'checked' : '' }}>
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" name="permissions[{{ $module['id'] }}][status]"
-                                                value="1" id="ckbCheckStatus" class="checkBoxStatus individual_checkbox"
-                                                {{ isset($permissions[$module['id']]['status']) ? 'checked' : '' }}>
+                                        <th>Module Name</th>
+                                        <th>Permissions</th>
+                                    </tr>
+                                </thead>
 
-                                        </td>
+
+                                <tbody>
+                                    @php
+                                        $modules= modulesList();
+                                    @endphp
+                                    @forelse ($modules as $module)
+                                    <tr>
+                                        <td>{{$module['slug']}}</td>
                                         <td>
-                                            <input type="checkbox" name="permissions[{{ $module['id'] }}][delete]"
-                                                value="1" id="ckbCheckDelete" class="checkBoxDelete individual_checkbox"
-                                                {{ isset($permissions[$module['id']]['delete']) ? 'checked' : '' }}>
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" name="permissions[{{ $module['id'] }}][all]"
-                                                value="1" id="ckbCheckAll" class="checkBoxAll individual_checkbox"
-                                                {{ isset($permissions[$module['id']]['all']) ? 'checked' : '' }}>
+                                            {{-- @forelse ($module->permissions as $permission)
+                                            <input type="checkbox" name="permission[]" value="{{$permission->id}}" class="checkBoxView" {{in_array($permission->id, $role->permissions->pluck('id')->toArray()) ? 'checked' : ''}}>{{$permission->name}} <br>
+                                            @empty
+
+                                            @endforelse --}}
                                         </td>
                                     </tr>
-                                @endforeach
+                                    @empty
 
-                            </tbody>
+                                    @endforelse
+                                </tbody>
+                            </table>
 
-                        </table>
+                            <input type="checkbox" id="selectAll" {{count($permissions) == count($role->permissions) ? 'checked' : ''}}
+                            >Select All <br>
 
+                            @forelse ($permissions as $permission)
+
+                            {{-- checkboxes --}}
+                            <input type="checkbox" name="permission[]" value="{{$permission->id}}" class="checkBoxView" {{in_array($permission->id, $role->permissions->pluck('id')->toArray()) ? 'checked' : ''}}>{{$permission->name}} <br>
+
+                            @empty
+
+                            @endforelse
+
+                            <div class="form-group col-md-12">
+                                <center><button class="btn btn-success">Update</button></center>
+                            </div>
+
+                        </form>
 
 
 
@@ -133,20 +89,14 @@
 @endsection
 
 @section('script')
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 <script>
-    $("#ckbCheckView").click(function() {
-            $(".Checkbox1").not(this).prop("checked", false);
 
-            $(".ckbCheckCreate").removeAttr("checked");
-            $(".ckbCheckEdit").removeAttr("checked");
-            $(".ckbCheckStatus").removeAttr("checked");
-            $(".ckbCheckDelete").removeAttr("checked");
-            $(".ckbCheckAll").removeAttr("checked");
+    $("#selectAll").click(function(){
+        $(".checkBoxView").prop('checked', $(this).prop('checked'));
+    });
 
-            $(".checkBoxView").attr("checked", this.checked);
-        });
 </script>
-
 
 @endsection
