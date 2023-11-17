@@ -32,14 +32,14 @@
                         <form method="POST" class="w-100" action="{{route('admin.roles.permissionStore', $role->id)}}">
                             @csrf
                             <table class="table">
+                                @include('admin.layout.partial.alert')
                                 <thead>
                                     <tr>
-                                        <th>Module Name</th>
-                                        <th>Permissions</th>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Module</th>
+                                        
                                     </tr>
                                 </thead>
-
-
                                 <tbody>
                                     @php
                                         $modules= modulesList();
