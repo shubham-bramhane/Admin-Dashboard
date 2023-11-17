@@ -9,7 +9,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">User List</h5>
-
+                        @include('admin.layout.partial.alert')
                         <!-- Table with stripped rows -->
                         <table class="table datatable">
                             <thead>
@@ -44,13 +44,13 @@
                                         </td>
                                         <td>
                                             <a href="{{ route('admin.users.edit', $user->id) }}"
-                                                class="btn btn-primary btn-sm">Edit</a>
+                                                class="btn btn-primary btn-sm"> <i class="ri-edit-2-line"></i></a>
                                             <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST"
                                                 class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm"
-                                                    onclick="return confirm('Are you sure?')">Delete</button>
+                                                    onclick="return confirm('Are you sure?')"> <i class="ri-delete-bin-2-line"></i></button>
                                             </form>
                                         </td>
                                     </tr>

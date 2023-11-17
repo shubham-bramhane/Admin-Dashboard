@@ -45,8 +45,9 @@
                                         @endcan
                                         <td>
                                             @can('roles-edit')
-                                            <a href="{{ route('admin.roles.edit', $role->id) }}"
-                                                class="btn btn-primary btn-sm">Edit</a>
+
+                                                <a href="{{ route('admin.roles.edit', $role->id) }}" class="btn btn-primary btn-sm"><i class="ri-edit-2-line"></i></a>
+
                                             @endcan
                                             @can('roles-delete')
                                             <form action="{{ route('admin.roles.destroy', $role->id) }}" method="POST"
@@ -54,10 +55,10 @@
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm"
-                                                    onclick="return confirm('Are you sure?')">Delete</button>
+                                                    onclick="return confirm('Are you sure?')"> <i class="ri-delete-bin-2-line"></i></button>
                                             </form>
                                             <a href="{{ route('admin.roles.permission', $role->id) }}"
-                                                class="btn btn-warning btn-sm">Permission</a>
+                                                class="btn btn-warning btn-sm"> <i class="ri-settings-2-line"></i></a>
                                             @endcan
                                         </td>
                                     </tr>
