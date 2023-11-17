@@ -14,7 +14,7 @@ class RoleController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('permission:roles-list|roles-create|roles-edit|roles-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:roles-view|roles-create|roles-edit|roles-delete', ['only' => ['index', 'store']]);
         $this->middleware('permission:roles-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:roles-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:roles-delete', ['only' => ['destroy']]);
@@ -216,8 +216,13 @@ class RoleController extends Controller
             if ($request->isMethod('post')) {
                 $role = Role::find($id);
                 if ($role) {
+                    if(!empty($request->permission)){
                     $permission= Permission::whereIn('id', $request->permission)->get()->pluck('name')->toArray();
                     $role->syncPermissions($permission);
+                    }
+                    else{
+                        $role->syncPermissions(null);
+                    }
                     return redirect()->route('admin.roles.index')->with('success', 'Role permission updated successfully.');
                 }
                 return redirect()->back()->with('error', 'Role not found.');

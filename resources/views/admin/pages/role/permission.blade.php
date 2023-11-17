@@ -29,7 +29,7 @@
                                 @endif
                             </div>
                         </div> --}}
-                        <form method="POST" class="w-100" action="{{route('admin.roles.permissionStore', $role->id)}}">
+                        <form method="POST" class="w-100" action="{{ route('admin.roles.permissionStore', $role->id) }}">
                             @csrf
                             <table class="table">
                                 @include('admin.layout.partial.alert')
@@ -37,41 +37,79 @@
                                     <tr>
                                         <th scope="col">#</th>
                                         <th scope="col">Module</th>
-                                        
+                                        <th scope="col">
+                                            <input type="checkbox" name="select" value="1" id="ckbCheckView"
+                                                className="Checkbox1" class="Checkbox1">
+                                            View
+                                        </th>
+                                        <th scope="col">
+                                            <input type="checkbox" name="select" value="1" id="ckbCheckCreate"
+                                                className="Checkbox1" class="Checkbox1">
+                                            Create
+                                        </th>
+                                        <th scope="col">
+                                            <input type="checkbox" name="select" value="1" id="ckbCheckEdit"
+                                                className="Checkbox1" class="Checkbox1">
+                                            Edit
+                                        </th>
+                                        <th scope="col">
+                                            <input type="checkbox" name="select" value="1" id="ckbCheckDelete"
+                                                className="Checkbox1" class="Checkbox1">
+                                            Delete
+                                        </th>
+                                        <th scope="col">
+                                            <input type="checkbox" name="select" value="1" id="ckbCheckStatus"
+                                                className="Checkbox1" class="Checkbox1">
+                                            Status
+                                        </th>
+                                        <th scope="col">
+                                            <input type="checkbox" name="select" value="1" id="ckbCheckAll"
+                                                className="Checkbox1" class="Checkbox1">
+                                            All
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @php
-                                        $modules= modulesList();
+                                        $modules = modulesList();
                                     @endphp
                                     @forelse ($modules as $module)
-                                    <tr>
-                                        <td>{{$module['slug']}}</td>
-                                        <td>
-                                            {{-- @forelse ($module->permissions as $permission)
-                                            <input type="checkbox" name="permission[]" value="{{$permission->id}}" class="checkBoxView" {{in_array($permission->id, $role->permissions->pluck('id')->toArray()) ? 'checked' : ''}}>{{$permission->name}} <br>
+                                        <tr>
+                                            <th scope="row">{{ $loop->iteration }}</th>
+                                            <td>{{ $module['slug'] }}</td>
+                                            @forelse ($permissions as $permission)
+                                                @if ($module['slug'] == explode('-', $permission->name)[0])
+                                                    <td>
+                                                        <input type="checkbox" name="permission[]"
+                                                            value="{{ $permission->id }}"
+                                                            class="checkBox{{ ucfirst(explode('-', $permission->name)[1]) }}"
+                                                            {{ in_array($permission->id, $role->permissions->pluck('id')->toArray()) ? 'checked' : '' }}>{{ $permission->name }}
+                                                    </td>
+                                                @endif
                                             @empty
+                                            @endforelse
 
-                                            @endforelse --}}
-                                        </td>
-                                    </tr>
+                                            <td>
+                                                <input type="checkbox" class="checkBoxAll"
+                                                    {{ in_array($permission->id, $role->permissions->pluck('id')->toArray()) ? 'checked' : '' }}>All<br>
+                                            </td>
+
+                                        </tr>
                                     @empty
-
                                     @endforelse
+
                                 </tbody>
                             </table>
 
-                            <input type="checkbox" id="selectAll" {{count($permissions) == count($role->permissions) ? 'checked' : ''}}
-                            >Select All <br>
 
-                            @forelse ($permissions as $permission)
 
-                            {{-- checkboxes --}}
+                            {{-- @forelse ($permissions as $permission)
+
                             <input type="checkbox" name="permission[]" value="{{$permission->id}}" class="checkBoxView" {{in_array($permission->id, $role->permissions->pluck('id')->toArray()) ? 'checked' : ''}}>{{$permission->name}} <br>
 
                             @empty
 
-                            @endforelse
+                            @endforelse --}}
 
                             <div class="form-group col-md-12">
                                 <center><button class="btn btn-success">Update</button></center>
@@ -89,14 +127,47 @@
 @endsection
 
 @section('script')
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
-<script>
+    <script>
 
-    $("#selectAll").click(function(){
-        $(".checkBoxView").prop('checked', $(this).prop('checked'));
-    });
+        // click all the checkboxes
+        $('#ckbCheckAll').click(function() {
+            $('input:checkbox').not(this).prop('checked', this.checked);
+        });
 
-</script>
+        // if i click checkBoxAll then select all checkbox of that row
 
+        $('.checkBoxAll').click(function() {
+            $(this).closest('tr').find('input[type="checkbox"]').prop('checked', this.checked);
+        });
+
+
+
+        $(document).ready(function() {
+            $("#ckbCheckView").click(function() {
+                $(".checkBoxView").prop('checked', $(this).prop('checked'));
+            });
+
+            $("#ckbCheckCreate").click(function() {
+                $(".checkBoxCreate").prop('checked', $(this).prop('checked'));
+            });
+
+            $("#ckbCheckEdit").click(function() {
+                $(".checkBoxEdit").prop('checked', $(this).prop('checked'));
+            });
+
+            $("#ckbCheckDelete").click(function() {
+                $(".checkBoxDelete").prop('checked', $(this).prop('checked'));
+            });
+
+            $("#ckbCheckStatus").click(function() {
+                $(".checkBoxStatus").prop('checked', $(this).prop('checked'));
+            });
+
+            $("#ckbCheckAll").click(function() {
+                $(".checkBoxAll").prop('checked', $(this).prop('checked'));
+            });
+        });
+    </script>
 @endsection

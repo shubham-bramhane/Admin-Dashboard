@@ -14,6 +14,14 @@ use Illuminate\Support\Facades\DB;
 
 class CustomerController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('permission:customers-view|customers-create|customers-edit|customers-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:customers-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:customers-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:customers-delete', ['only' => ['destroy']]);
+    }
     /**
      * Display a listing of the resource.
      */

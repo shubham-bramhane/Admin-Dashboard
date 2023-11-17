@@ -13,23 +13,12 @@ class PermissionSeeder extends Seeder
      */
     public function run(): void
     {
-        $permissions = [
-            'users-list',
-            'users-create',
-            'users-edit',
-            'users-delete',
-            'users-status',
-            
-            'roles-list',
-            'roles-create',
-            'roles-edit',
-            'roles-delete',
-            'roles-status',
-         ];
-
-          // Looping and Inserting Array's Permissions into Permission Table
-         foreach ($permissions as $permission) {
-            Permission::create(['name' => $permission]);
-          }
+        foreach (modulesList() as $module) {
+            Permission::UpdateOrCreate(['name' => $module['slug'].'-view']);
+            Permission::UpdateOrCreate(['name' => $module['slug'].'-create']);
+            Permission::UpdateOrCreate(['name' => $module['slug'].'-edit']);
+            Permission::UpdateOrCreate(['name' => $module['slug'].'-delete']);
+            Permission::UpdateOrCreate(['name' => $module['slug'].'-status']);
+        }
     }
 }
