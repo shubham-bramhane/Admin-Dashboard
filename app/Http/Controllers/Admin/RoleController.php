@@ -194,11 +194,25 @@ class RoleController extends Controller
     }
 
     public function permission(string $id){
-
+        try {
+            $role = Role::find($id);
+            if ($role) {
+                $data = $this->pageSetting('edit', ['id' => $id]);
+                $permissions = Permission::all();
+                $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id", $id)
+                ->pluck('role_has_permissions.permission_id', 'role_has_permissions.permission_id')
+                ->all();
+                return view('admin.pages.role.permission', compact('data', 'role', 'permissions', 'rolePermissions'));
+            }
+        }
+        catch (\Throwable $th) {
+            //throw $th;
+            return redirect()->back()->with('error', $th->getMessage());
+        }
     }
 
     public function permissionStore(Request $request, string $id){
-       
+
     }
 
 
