@@ -11,54 +11,7 @@
                 </a>
             </li><!-- End Dashboard Nav -->
         @endcan
-        @can('users-view')
-            <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#user-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-menu-button-wide"></i><span>User</span><i class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul id="user-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                    @can('users-create')
-                    <li>
-                        <a href="{{ route('admin.users.create') }}" @if (Route::is('admin.users.create')) class="active" @endif>
-                            <i class="bi bi-circle"></i><span>Create User</span>
-                        </a>
-                    </li>
-                    @endcan
-                    <li>
-                        <a href="{{ route('admin.users.index') }}" @if (Route::is('admin.users.index')) class="active" @endif>
-                            <i class="bi bi-circle"></i><span>User List</span>
-                        </a>
-                    </li>
-                </ul>
-            </li><!-- End User Nav -->
-        @endcan
-
-        {{-- Customer --}}
-
-        @can('customers-view')
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#customer-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-menu-button-wide"></i><span>Customer</span><i class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul id="customer-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                    @can('customers-create')
-                        <li>
-                            <a href="{{ route('admin.customers.create') }}" @if (Route::is('admin.customers.create')) class="active" @endif>
-                                <i class="bi bi-circle"></i><span>Create Customer</span>
-                            </a>
-                        </li>
-                    @endcan
-                    <li>
-                        <a href="{{ route('admin.customers.index') }}" @if (Route::is('admin.customers.index')) class="active" @endif>
-                            <i class="bi bi-circle"></i><span>Customer List</span>
-                        </a>
-                    </li>
-                </ul>
-            </li><!-- End Customer Nav -->
-
-        @endcan
-
+       
         @can('roles-view')
 
             <li class="nav-item">

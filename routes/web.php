@@ -41,12 +41,7 @@ Route::middleware(['auth','checkLogin'])->prefix('admin')->name('admin.')
 
     Route::resource('dashboard', DashboardController::class);
 
-    Route::resource('users', UserController::class);
-    Route::get('users/status/{id}', [UserController::class, 'status'])->name('users.status');
-
-    Route::resource('customers', CustomerController::class);
-    Route::get('customers/status/{id}', [CustomerController::class, 'status'])->name('customers.status');
-
+    
     Route::resource('roles', RoleController::class);
     Route::get('roles/status/{id}', [RoleController::class, 'status'])->name('roles.status');
     Route::get('roles/permission/{id}', [RoleController::class, 'permission'])->name('roles.permission');
