@@ -5,7 +5,7 @@
 
         @can('dashboard-view')
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('admin.dashboard.index') }}" @if (Route::is('admin.dashboard.index')) class="active" @endif>
+                <a class="nav-link @if (Route::is('admin.dashboard.index')) @else collapsed @endif" href="{{ route('admin.dashboard.index') }}">
                     <i class="bi bi-grid"></i>
                     <span>Dashboard</span>
                 </a>
