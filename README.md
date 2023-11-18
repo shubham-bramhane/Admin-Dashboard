@@ -17,7 +17,7 @@ This admin panel contain roles and permission also authorize page.
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
 
-1. Open in cmd or terminal app  
+1. Open in cmd or terminal app   
 2. Run following commands
 
 ```bash
