@@ -70,6 +70,15 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 2. Run following commands
 
 ```bash
+git clone https://github.com/shubham-bramhane/Admin-panel.git
+```
+
+```bash
+cd Admin-panel
+```
+
+
+```bash
 composer install
 ```
 
@@ -101,4 +110,3 @@ And navigate to generated server link (http://127.0.0.1:8000)
 
 ### Copyright
 
-...
