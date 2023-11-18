@@ -32,6 +32,7 @@
                                         <td>{{ $customer->age }}</td>
                                         <td>{{ $customer->created_at->format('d-m-Y') }}</td>
                                         <td>
+                                            @can('customers-status')
                                             @if ($customer->status == 1)
                                             <a href="{{ route('admin.customers.status', $customer->id) }}"
                                                 class="btn btn-success btn-sm">Active</a>
@@ -41,12 +42,15 @@
                                                 class="btn btn-danger btn-sm">Inactive</a>
 
                                             @endif
-
+                                            @endcan
                                         </td>
 
                                         <td>
+                                            @can('customers-edit')
                                             <a href="{{ route('admin.customers.edit', $customer->id) }}"
                                                 class="btn btn-primary btn-sm"> <i class="ri-edit-2-line"></i></a>
+                                            @endcan
+                                            @can('customers-delete')
                                             <form action="{{ route('admin.customers.destroy', $customer->id) }}" method="POST"
                                                 class="d-inline">
                                                 @csrf
@@ -54,6 +58,7 @@
                                                 <button type="submit" class="btn btn-danger btn-sm"
                                                     onclick="return confirm('Are you sure?')"> <i class="ri-delete-bin-2-line"></i></button>
                                             </form>
+                                            @endcan
                                         </td>
                                     </tr>
                                 @endforeach

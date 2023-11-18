@@ -5,7 +5,7 @@
 
         @can('dashboard-view')
             <li class="nav-item">
-                <a class="nav-link " href="{{ route('admin.dashboard.index') }}">
+                <a class="nav-link" href="{{ route('admin.dashboard.index') }}" @if (Route::is('admin.dashboard.index')) class="active" @endif>
                     <i class="bi bi-grid"></i>
                     <span>Dashboard</span>
                 </a>
@@ -17,13 +17,15 @@
                     <i class="bi bi-menu-button-wide"></i><span>User</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="user-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    @can('users-create')
                     <li>
-                        <a href="{{ route('admin.users.create') }}">
+                        <a href="{{ route('admin.users.create') }}" @if (Route::is('admin.users.create')) class="active" @endif>
                             <i class="bi bi-circle"></i><span>Create User</span>
                         </a>
                     </li>
+                    @endcan
                     <li>
-                        <a href="{{ route('admin.users.index') }}">
+                        <a href="{{ route('admin.users.index') }}" @if (Route::is('admin.users.index')) class="active" @endif>
                             <i class="bi bi-circle"></i><span>User List</span>
                         </a>
                     </li>
@@ -42,13 +44,13 @@
                 <ul id="customer-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     @can('customers-create')
                         <li>
-                            <a href="{{ route('admin.customers.create') }}">
+                            <a href="{{ route('admin.customers.create') }}" @if (Route::is('admin.customers.create')) class="active" @endif>
                                 <i class="bi bi-circle"></i><span>Create Customer</span>
                             </a>
                         </li>
                     @endcan
                     <li>
-                        <a href="{{ route('admin.customers.index') }}">
+                        <a href="{{ route('admin.customers.index') }}" @if (Route::is('admin.customers.index')) class="active" @endif>
                             <i class="bi bi-circle"></i><span>Customer List</span>
                         </a>
                     </li>
@@ -66,13 +68,13 @@
                 <ul id="role-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     @can('roles-create')
                         <li>
-                            <a href="{{ route('admin.roles.create') }}">
+                            <a href="{{ route('admin.roles.create') }}" @if (Route::is('admin.roles.create')) class="active" @endif>
                                 <i class="bi bi-circle"></i><span>Create Role</span>
                             </a>
                         </li>
                     @endcan
                     <li>
-                        <a href="{{ route('admin.roles.index') }}">
+                        <a href="{{ route('admin.roles.index') }}" @if (Route::is('admin.roles.index')) class="active" @endif>
                             <i class="bi bi-circle"></i><span>Role List</span>
                         </a>
                     </li>

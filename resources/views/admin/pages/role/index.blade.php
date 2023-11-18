@@ -18,9 +18,7 @@
                                     <th scope="col">#</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Created at</th>
-                                    @can('roles-status')
                                     <th scope="col">Status</th>
-                                    @endcan
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -30,8 +28,9 @@
                                         <th scope="row">{{ $loop->iteration }}</th>
                                         <td>{{ $role->name }}</td>
                                         <td>{{ $role->created_at->format('d-m-Y') }}</td>
-                                        @can('roles-status')
+
                                         <td>
+                                            @can('roles-status')
                                             @if ($role->status == 1)
                                                 <a href="{{ route('admin.roles.status', $role->id) }}"
                                                     class="btn btn-success btn-sm">Active</a>
@@ -41,8 +40,9 @@
                                                     class="btn btn-danger btn-sm">Inactive</a>
 
                                             @endif
+                                            @endcan
                                         </td>
-                                        @endcan
+
                                         <td>
                                             @can('roles-edit')
 
