@@ -82,6 +82,10 @@ php artisan key:generate
 ```
 
 ```bash
+php artisan migrate:fresh --seed
+```
+
+```bash
 npm install
 ```
 
