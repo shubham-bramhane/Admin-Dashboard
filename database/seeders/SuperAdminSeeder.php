@@ -32,5 +32,12 @@ class SuperAdminSeeder extends Seeder
         ]);
         $admin->assignRole('Admin');
 
+        // Creating User User
+        $user = User::create([
+            'name' => 'User',
+            'email' => 'user@codefinch.com',
+            'password' => Hash::make('123456789'),
+        ]);
+        $user->assignRole('User');
     }
 }

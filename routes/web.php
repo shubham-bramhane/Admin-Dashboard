@@ -28,10 +28,17 @@ Route::get('/empty', function () {
     return view('admin.pages.empty');
 });
 
-Auth::routes();
+// Auth::routes();
+Route::get('login', [App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login');
+Route::post('login', [App\Http\Controllers\Auth\LoginController::class, 'login'])->name('login');
+Route::post('logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
 Route::get('admin/login', function () {
     return view('admin.pages.auth.login');
 })->name('admin.login');
+
+Route::get('login', function () {
+    return redirect()->route('admin.login');
+})->name('login');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -41,7 +48,6 @@ Route::middleware(['auth','checkLogin'])->prefix('admin')->name('admin.')
 
     Route::resource('dashboard', DashboardController::class);
 
-    
     Route::resource('roles', RoleController::class);
     Route::get('roles/status/{id}', [RoleController::class, 'status'])->name('roles.status');
     Route::get('roles/permission/{id}', [RoleController::class, 'permission'])->name('roles.permission');
