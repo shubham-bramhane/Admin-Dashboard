@@ -5,9 +5,7 @@ use Spatie\Permission\Models\Permission;
 function modulesList(){
    return [
     [ 'id' => 1,'slug' => 'dashboard'],
-    [ 'id' => 2,'slug' => 'users'],
-    [ 'id' => 3,'slug' => 'roles'],
-    [ 'id' => 4,'slug' => 'customers'],
+    [ 'id' => 2,'slug' => 'roles'],
 ];}
 
 
