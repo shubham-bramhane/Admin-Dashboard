@@ -26,3 +26,12 @@ function autoCreatePermissionUsingModules()
     }
 }
 
+function getRoles()
+{
+    return \Spatie\Permission\Models\Role::all();
+}
+
+function getRoleByName($name)
+{
+    return \Spatie\Permission\Models\Role::where('name', $name)->first();
+}
