@@ -6,6 +6,7 @@ function modulesList(){
    return [
     [ 'id' => 1,'slug' => 'dashboard'],
     [ 'id' => 2,'slug' => 'roles'],
+    [ 'id' => 3,'slug' => 'users'],
 ];}
 
 
