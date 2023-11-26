@@ -36,3 +36,25 @@ function getRoleByName($name)
 {
     return \Spatie\Permission\Models\Role::where('name', $name)->first();
 }
+
+function getActivities()
+{
+    return \Spatie\Activitylog\Models\Activity::latest()->limit(10)->get();
+}
+
+function textClass()
+{
+
+    $data =
+    [
+        'text-primary',
+        'text-secondary',
+        'text-success',
+        'text-danger',
+        'text-warning',
+        'text-info',
+        'text-muted',
+
+    ];
+    return $data[array_rand($data)];
+}
