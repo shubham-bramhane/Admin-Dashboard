@@ -42,11 +42,11 @@ php artisan key:generate
 ```
 
 ```bash
-php artisan migrate:fresh --seed
+php artisan migrate
 ```
 
 ```bash
-php artisan migrate
+php artisan migrate:fresh --seed
 ```
 
 ```bash
