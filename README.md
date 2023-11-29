@@ -25,7 +25,7 @@ git clone https://github.com/shubham-bramhane/Admin-pannel.git
 ```
 
 ```bash
-cd Admin-panel
+cd Admin-pannel
 ```
 
 
