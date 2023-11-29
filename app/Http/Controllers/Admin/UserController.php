@@ -195,7 +195,6 @@ class UserController extends Controller
         if($action == 'edit'){
             $data['page_title'] = 'Edit User';
             $data['page_description'] = 'Edit User';
-            // dd($dataArray);
             $data['breadcrumbs'] = [
                [
                 'title' => 'User',
