@@ -65,15 +65,26 @@ And navigate to generated server link (http://127.0.0.1:8000)
 
 Super Admin :
 
-
 email: 
 ```bash
- super@codefinch.com 
+super@codefinch.com 
 ```
 
 password:
 ```bash
- 123456789 
+123456789 
+```
+
+Admin :
+
+email: 
+```bash
+admin@codefinch.com 
+```
+
+password:
+```bash
+123456789 
 ```
 
 
