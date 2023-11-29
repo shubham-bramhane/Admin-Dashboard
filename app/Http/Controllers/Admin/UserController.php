@@ -265,9 +265,6 @@ class UserController extends Controller
             return $data;
         }
 
-
-
-
         if($action == 'index'){
             $data['page_title'] = 'User';
             $data['page_description'] = 'User';
