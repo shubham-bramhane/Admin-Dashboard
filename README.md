@@ -21,11 +21,11 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 2. Run following commands
 
 ```bash
-git clone https://github.com/shubham-bramhane/Admin-pannel.git
+git clone https://github.com/shubham-bramhane/Admin-Dashboard.git
 ```
 
 ```bash
-cd Admin-pannel
+cd Admin-Dashboard
 ```
 
 
