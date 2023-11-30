@@ -58,3 +58,13 @@ function textClass()
     ];
     return $data[array_rand($data)];
 }
+
+function RecentLogin()
+{
+    return \App\Models\UserLogin::latest()->get();
+}
+
+function RecentLogout()
+{
+    return \App\Models\UserLogin::whereNotNull('logout_time')->latest()->get();
+}
