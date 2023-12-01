@@ -484,6 +484,7 @@
             <!-- Right side columns -->
             <div class="col-lg-4">
 
+                @if (auth()->user()->hasRole('Super Admin') )
                 <!-- Recent Activity -->
                 <div class="card">
                     <div class="filter">
@@ -524,6 +525,7 @@
 
                     </div>
                 </div><!-- End Recent Activity -->
+                @endif
 
                 <!-- Budget Report -->
                 <div class="card">
