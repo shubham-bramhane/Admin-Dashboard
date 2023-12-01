@@ -77,7 +77,7 @@
             <a class="nav-link collapsed" href="{{ route('logout') }}"onclick="event.preventDefault();
         document.getElementById('logout-form').submit();">
                 <i class="bi bi-box-arrow-in-right"></i>
-                <span>Sign</span>
+                <span>Sign Out</span>
             </a>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                 @csrf
