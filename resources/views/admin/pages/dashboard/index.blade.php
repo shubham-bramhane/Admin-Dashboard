@@ -213,7 +213,7 @@
                                             <td>{{$login->user->name}}</td>
                                             <td><a href="#" class="text-primary">{{$login->ip_address}}</a></td>
                                             <td>{{$login->login_time}}
-                                            <td><span class="badge bg-success">Inactive</span></td>
+                                            <td><span class="badge bg-danger">Inactive</span></td>
                                         </tr>
                                         @empty
                                         @endforelse
