@@ -80,7 +80,7 @@ class RoleController extends Controller
                 }
 
                 $response = Role::UpdateOrCreate(['id' => null], $array);
-                activity()->performedOn($response)->causedBy(auth()->user()->id)->withProperties(['name' => $response->name])->log('Role created successfully.');
+                activity()->performedOn($response)->causedBy(auth()->user()->id)->withProperties(['name' => $response->name])->log('Role created by '.auth()->user()->name);
                 DB::commit();
                 return redirect()->route('admin.roles.index')->with('success', 'Role created successfully.');
 
@@ -150,7 +150,7 @@ class RoleController extends Controller
                 }
 
                 $response = Role::UpdateOrCreate(['id' => $id], $array);
-                activity()->performedOn($response)->causedBy(auth()->user()->id)->withProperties(['name' => $response->name])->log('Role updated successfully.');
+                activity()->performedOn($response)->causedBy(auth()->user()->id)->withProperties(['name' => $response->name])->log('Role updated by '.auth()->user()->name);
                 DB::commit();
                 return redirect()->route('admin.roles.index')->with('success', 'Role updated successfully.');
 
@@ -167,7 +167,7 @@ class RoleController extends Controller
             $role = Role::find($id);
             if ($role) {
                 $role->status = !$role->status;
-                activity()->performedOn($role)->causedBy(auth()->user()->id)->withProperties(['status' => $role->status])->log('Role status updated successfully.');
+                activity()->performedOn($role)->causedBy(auth()->user()->id)->withProperties(['status' => $role->status])->log('Role status updated by '.auth()->user()->name);
                 $role->save();
                 return redirect()->back()->with('success', 'Role status updated successfully.');
             }
@@ -187,7 +187,7 @@ class RoleController extends Controller
             $role = Role::find($id);
             if ($role) {
                 $role->delete();
-                activity()->performedOn($role)->causedBy(auth()->user()->id)->log('Role deleted successfully.');
+                activity()->performedOn($role)->causedBy(auth()->user()->id)->log('Role deleted by '.auth()->user()->name);
                 return redirect()->back()->with('success', 'Role deleted successfully.');
             }
             return redirect()->back()->with('error', 'Role not found.');
@@ -223,7 +223,7 @@ class RoleController extends Controller
                     if(!empty($request->permission)){
                     $permission= Permission::whereIn('id', $request->permission)->get()->pluck('name')->toArray();
                     $role->syncPermissions($permission);
-                    activity()->performedOn($role)->causedBy(auth()->user()->id)->withProperties(['permission' => $permission])->log('Role permission updated successfully.');
+                    activity()->performedOn($role)->causedBy(auth()->user()->id)->withProperties(['permission' => $permission])->log('Role permission updated by '.auth()->user()->name);
                     }
                     else{
                         $role->syncPermissions(null);
