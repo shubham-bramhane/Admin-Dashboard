@@ -81,7 +81,7 @@ class UserController extends Controller
                     return redirect()->back()->with('error', 'Role not found');
                 }
                 $user->assignRole($role->name);
-                activity()->performedOn($user)->causedBy(auth()->user())->withProperties(['role' => $role->name])->log('User created with role');
+                activity()->performedOn($user)->causedBy(auth()->user())->withProperties(['role' => $role->name])->log('New user created with role by '. auth()->user()->name);
                 DB::commit();
                 return redirect()->route('admin.users.index')->with('success', 'User created successfully');
 
@@ -148,7 +148,7 @@ class UserController extends Controller
                     return redirect()->back()->with('error', 'Role not found');
                 }
                 $user->syncRoles($role->name);
-                activity()->performedOn($user)->causedBy(auth()->user())->withProperties(['role' => $role->name])->log('User updated with role');
+                activity()->performedOn($user)->causedBy(auth()->user())->withProperties(['role' => $role->name])->log('User updated with role by '. auth()->user()->name);
                 DB::commit();
                 return redirect()->route('admin.users.index')->with('success', 'User updated successfully');
 
@@ -167,7 +167,7 @@ class UserController extends Controller
                 return redirect()->back()->with('error', 'User not found');
             }
             $user->status = $user->status == 1 ? 0 : 1;
-            activity()->performedOn($user)->causedBy(auth()->user())->withProperties(['status' => $user->status])->log('User status updated');
+            activity()->performedOn($user)->causedBy(auth()->user())->withProperties(['status' => $user->status])->log('User status updated by '. auth()->user()->name);
             $user->save();
             return redirect()->back()->with('success', 'User status updated successfully');
         } catch (\Throwable $th) {
@@ -186,7 +186,8 @@ class UserController extends Controller
         try{
             DB::beginTransaction();
             $user->delete();
-            activity()->performedOn($user)->causedBy(auth()->user())->log('User deleted');
+            $user->syncRoles([]);
+            activity()->performedOn($user)->causedBy(auth()->user())->log('User deleted by '. auth()->user()->name);
             DB::commit();
             return redirect()->back()->with('success', 'User deleted successfully');
         }
