@@ -121,7 +121,8 @@
 
                     </div><!-- End Customers Card -->
 
-                    <!-- Recent Sales -->
+                    @if (auth()->user()->hasRole('Super Admin') )
+                    <!-- Recent Login -->
                     <div class="col-12">
                         <div class="card recent-sales overflow-auto">
 
@@ -167,9 +168,14 @@
                                 </table>
                             </div>
                         </div>
-                    </div><!-- End Recent Sales -->
+                    </div><!-- End Recent Login -->
 
-                     <!-- Recent Sales -->
+                    @endif
+
+                    @if (auth()->user()->hasRole('Super Admin') )
+
+
+                     <!-- Recent Logout -->
                      <div class="col-12">
                         <div class="card recent-sales overflow-auto">
 
@@ -215,8 +221,8 @@
                                 </table>
                             </div>
                         </div>
-                    </div><!-- End Recent Sales -->
-
+                    </div><!-- End Recent Logout -->
+                    @endif
 
 
                     <!-- Reports -->

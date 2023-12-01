@@ -51,7 +51,7 @@ class LoginController extends Controller
     public function logout()
     {
         $user = auth()->user();
-        $user->userlogins()->latest()->first()->update([
+        $user->userlogins()->latest()->first()?->update([
             'logout_time' => now(),
         ]);
         auth()->logout();
