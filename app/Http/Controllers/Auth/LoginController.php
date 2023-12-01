@@ -38,4 +38,24 @@ class LoginController extends Controller
         autoCreatePermissionUsingModules();
         $this->middleware('guest')->except('logout');
     }
+
+    public function authenticated()
+    {
+        $user = auth()->user();
+        $user->userlogins()->create([
+            'ip_address' => request()->ip(),
+            'login_time' => now(),
+        ]);
+    }
+
+    public function logout()
+    {
+        $user = auth()->user();
+        $user->userlogins()->latest()->first()?->update([
+            'logout_time' => now(),
+        ]);
+        auth()->logout();
+        return redirect()->route('login');
+    }
+
 }
